@@ -3,9 +3,8 @@ pipeline {
 
     environment {
         DOCKERHUB_USER        = "roshini31"
-        IMAGE_BASE             = "devops-build"
-        DOCKERHUB_CREDENTIALS  = credentials('dockerhub-creds')
-        EC2_HOST                = "3.110.155.142"
+        IMAGE_BASE            = "devops-build"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
     }
 
     stages {
@@ -42,16 +41,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sshagent(['ec2-ssh-key']) {
-                    sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
-                          docker pull ${IMAGE}:latest &&
-                          docker stop devops-build-app || true &&
-                          docker rm devops-build-app || true &&
-                          docker run -d --name devops-build-app -p 80:80 --restart unless-stopped ${IMAGE}:latest
-                        '
-                    """
-                }
+                sh """
+                    docker pull ${IMAGE}:latest
+                    docker stop devops-build-app || true
+                    docker rm devops-build-app || true
+                    docker run -d --name devops-build-app -p 80:80 --restart unless-stopped ${IMAGE}:latest
+                """
             }
         }
     }
