@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    image: ${DOCKERHUB_USER:-roshini31}/devops-build-dev:latest
+    container_name: devops-build-app
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

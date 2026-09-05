@@ -1,0 +1,13 @@
+.git
+.gitignore
+.dockerignore
+README.md
+*.md
+*.sh
+docker-compose.yml
+Jenkinsfile
+screenshots/
+node_modules
+.vscode
+.idea
+.DS_Store
