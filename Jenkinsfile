@@ -17,7 +17,7 @@ pipeline {
         stage('Determine target repo') {
             steps {
                 script {
-                    env.TARGET_REPO = (env.BRANCH_NAME == 'master') ? 'prod' : 'dev'
+                    env.TARGET_REPO = (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') ? 'prod' : 'dev'
                     env.IMAGE = "${DOCKERHUB_USER}/${IMAGE_BASE}-${env.TARGET_REPO}"
                 }
             }
